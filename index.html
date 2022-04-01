@@ -18,8 +18,17 @@ crossorigin=""/>
 <script type="text/javascript"language="javascript">
     var mqtt;
     var reconnectTimeout=2000;
-    var host="broker.emqx.io"; //change this
+    var host="broker.emqx.io"; 
     var port=8083;
+    function start(){
+        document.getElementById("info1").innerHTML="You are connected to Host: "+host;
+        document.getElementById("info2").innerHTML="You are connected to Port: "+port;
+    }
+    function End1(){
+        mqtt.disconnect();
+        document.getElementById("info1").innerHTML="you are not connected";
+        document.getElementById("info2").innerHTML=" ";
+    }
     function getLocation() {
               if ('geolocation'in navigator){
                   navigator.geolocation.getCurrentPosition(position =>{
@@ -34,7 +43,7 @@ crossorigin=""/>
             else{
                 document.getElementById("message").innerHTML="Not supportted";
             }
-        
+            document.getElementById("Temperature").innerHTML=Math.floor(Math.random() *15);
         }
             
     function onConnect(){
@@ -64,9 +73,10 @@ crossorigin=""/>
             onSuccess:onConnect,
             onFailure: onFailure,
         };
-            mqtt.onMessageArrived =onMessageArrived
+            mqtt.onMessageArrived =onMessageArrived;
         
         mqtt.connect(options); //conncet
+        loop_forever();
     }
         </script>
     </head>
@@ -74,18 +84,26 @@ crossorigin=""/>
         <h1>Location Finder</h1>
         <h1 id="message"></h1>
         <p>
-            latitude: <span id="latitude"></span> &deg;<br/>
+            latitude: <span id="latitude"></span> &deg;</br>
             longitude: <span id="longitude"></span>&deg;</br>
-            Temperature: <span id="Temperature">20</span>
+            Temperature: <span id="Temperature" ></span>&deg;</br>
         </p>
-        <script>
+        <button id="location" onclick="getLocation()">Get Location</button>
+        
+        <p>
+            <span id="info1"></span></br>
+            <span id="info2"></span></br>
+        </p>
+        <button onclick=start() >Server Info</button>
+        <button onclick=End1()>End Connection</button>
+         <script>
             MQTTconnect();
         </script>
-        <button id="location" onclick="getLocation()">Get Location</button>
+       
     
             <div id="map"></div> 
         
-            
+    
     </body>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
 integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
