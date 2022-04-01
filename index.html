@@ -24,11 +24,7 @@ crossorigin=""/>
         document.getElementById("info1").innerHTML="You are connected to Host: "+host;
         document.getElementById("info2").innerHTML="You are connected to Port: "+port;
     }
-    function End1(){
-        mqtt.disconnect();
-        document.getElementById("info1").innerHTML="you are not connected";
-        document.getElementById("info2").innerHTML=" ";
-    }
+    
     function getLocation() {
               if ('geolocation'in navigator){
                   navigator.geolocation.getCurrentPosition(position =>{
@@ -37,6 +33,7 @@ crossorigin=""/>
                    document.getElementById("latitude").innerHTML=position.coords.latitude;
                    document.getElementById("longitude").innerHTML=position.coords.longitude;
                    locate(position.coords.latitude,position.coords.longitude)
+                   popup(position.coords.latitude,position.coords.longitude)
 
               });
             }
@@ -50,8 +47,8 @@ crossorigin=""/>
         //once a conncetion has been made, make a subscription and send a message.
         console.log("connected");
         //mqtt.subscribe("sensor1");
-        message=new Paho.MQTT.Message("Hello World");
-        message.destinationName="sensor1";
+        message=new Paho.MQTT.Message(" <ENGO651>/<Krishnakishore>/my_temperature");
+        message.destinationName="Temperature";
         mqtt.send(message);
     }
     function onFailure(message){
@@ -76,13 +73,22 @@ crossorigin=""/>
             mqtt.onMessageArrived =onMessageArrived;
         
         mqtt.connect(options); //conncet
-        loop_forever();
+    }
+    function End1(){
+        mqtt.disconnect();
+        document.getElementById("info1").innerHTML="you are not connected";
+        document.getElementById("info2").innerHTML=" ";
     }
         </script>
     </head>
     <body>
         <h1>Location Finder</h1>
-        <h1 id="message"></h1>
+        <p>
+          Course: <span>ENGO651</span></br>
+          Name: <span>Krishnakishore</span></br>
+           <button>Subscribe</button>
+        </p>
+        
         <p>
             latitude: <span id="latitude"></span> &deg;</br>
             longitude: <span id="longitude"></span>&deg;</br>
@@ -96,13 +102,13 @@ crossorigin=""/>
         </p>
         <button onclick=start() >Server Info</button>
         <button onclick=End1()>End Connection</button>
-         <script>
-            MQTTconnect();
-        </script>
+       
        
     
             <div id="map"></div> 
-        
+    <script>
+        MQTTconnect()
+    </script>
     
     </body>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
