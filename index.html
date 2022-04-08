@@ -33,14 +33,16 @@ crossorigin=""/>
                    document.getElementById("latitude").innerHTML=position.coords.latitude;
                    document.getElementById("longitude").innerHTML=position.coords.longitude;
                    locate(position.coords.latitude,position.coords.longitude)
-                   popup(position.coords.latitude,position.coords.longitude)
+                   
 
               });
             }
             else{
                 document.getElementById("message").innerHTML="Not supportted";
             }
-            document.getElementById("Temperature").innerHTML=Math.floor(Math.random() *15);
+            var temp=Math.floor(Math.random() *15)
+            document.getElementById("Temperature").innerHTML=temp;
+            popup(position.coords.latitude,position.coords.longitude,temp)
         }
             
     function onConnect(){

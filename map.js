@@ -14,11 +14,11 @@ var mapbox=L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?
 }).addTo(map);;
 }
 function popup(x,y,z){
-
-    var amrker=L.marker([x,y],{
+    var temp=z;
+    var marker=L.marker([x,y],{
         elevation:200.0,
         Title: "Thi is It"
     }).addTo(map)
 
-    amrker.bindPopup('<div>'+z+'</div>').openPopup();
+    marker.bindPopup('<div>'+temp+'</div>').openPopup();
 }
